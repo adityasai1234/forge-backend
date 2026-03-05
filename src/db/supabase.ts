@@ -6,8 +6,10 @@ dotenv.config({ path: '.env.local' });
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
-if (!supabaseUrl || !supabaseKey) {
-  console.warn('Supabase credentials missing. Check .env.local file.');
-}
+export let supabase: ReturnType<typeof createClient> | null = null;
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+if (!supabaseUrl || !supabaseKey) {
+  console.warn('Supabase credentials missing. Check .env.local file. Database operations will be skipped.');
+} else {
+  supabase = createClient(supabaseUrl, supabaseKey);
+}

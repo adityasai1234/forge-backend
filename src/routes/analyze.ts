@@ -39,7 +39,7 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
     // We generate a faux paper_id if none provided (normally this comes from forge_papers)
     const paperId = req.body.paper_id || uuidv4();
     
-    if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
+    if (supabase) {
       console.log('Saving results to Supabase matching Python backend behavior...');
       const { error } = await supabase
         .from('forge_opportunities')
@@ -49,11 +49,13 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
           architect_design: output.architect_design,
           strategist_plan: output.strategist_plan,
           nova_score: output.nova_score
-        });
+        } as any);
 
       if (error) {
         console.error('Failed to save to Supabase:', error.message);
       }
+    } else {
+      console.log('Skipping Supabase save: client not initialized (missing credentials).');
     }
 
     res.json(output);
