@@ -31,7 +31,7 @@ export const runAnalystAgent = async (input: AnalystInput): Promise<{ paperAnaly
   return {
     paperAnalysis: {
       introOverview: `This paper presents an overview of ${input.title}, focusing on its primary technical contributions.`,
-      summary: `The work by ${input.authors.join(', ')} introduces a novel method to address current limitations. It provides a structured approach to solving the problem described in the abstract.`,
+      summary: `The work by ${(input.authors || []).join(', ')} introduces a novel method to address current limitations. It provides a structured approach to solving the problem described in the abstract.`,
       researchProblem: "The core challenge defined in the abstract.",
       methodInPlainEnglish: "1. Define inputs. 2. Process data using the novel algorithm. 3. Output refined results.",
       coreBreakthrough: "A 10x improvement in processing efficiency over the previous state-of-the-art methodology.",
